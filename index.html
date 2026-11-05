@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InovaSUS Connect | Inovação em Saúde Pública</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --navy:#102B3D;
+  --navy2:#173D50;
+  --teal:#21B6A8;
+  --mint:#BCEDE0;
+  --orange:#F3A64A;
+  --coral:#EF806E;
+  --paper:#F4F7F6;
+  --ink:#193747;
+  --muted:#78909A;
+  --white:#FFFFFF;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  font-family:'DM Sans',sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+}
+button {font:inherit;cursor:pointer}
+.app {display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar {
+  width:255px;
+  flex-shrink:0;
+  background:linear-gradient(165deg,#102B3D,#123C4C 75%,#15545A);
+  color:white;
+  padding:28px 19px;
+  display:flex;
+  flex-direction:column;
+  position:fixed;
+  inset:0 auto 0 0;
+  z-index:10;
+}
+.brand {display:flex;align-items:center;gap:12px;padding:4px 9px 35px}
+.brand-symbol {
+  width:43px;height:43px;border-radius:14px;
+  display:grid;place-items:center;
+  color:#102B3D;background:linear-gradient(145deg,#BCEDE0,#21B6A8);
+  font-size:24px;font-weight:800;
+  box-shadow:0 7px 25px #21b6a844;
+}
+.brand-name {font:800 19px Manrope,sans-serif;letter-spacing:-.7px}
+.brand-name span {color:#62D8C7}
+.brand-sub {font-size:9px;letter-spacing:1.5px;color:#A9C7CB;margin-top:3px}
+.menu-label {font-size:10px;letter-spacing:2px;color:#83AAB2;padding:0 12px;margin:8px 0 12px}
+.nav {display:flex;flex-direction:column;gap:7px}
+.nav button {
+  border:0;background:transparent;color:#BBD0D5;
+  text-align:left;padding:13px 14px;border-radius:12px;
+  font-size:13px;font-weight:600;transition:.25s;
+  display:flex;align-items:center;gap:12px;
+}
+.nav button:hover {background:#ffffff12;color:white;transform:translateX(3px)}
+.nav button.active {
+  color:white;background:linear-gradient(100deg,#21B6A833,#21B6A811);
+  box-shadow:inset 3px 0 #45D5C3;
+}
+.nav-icon {font-size:17px;width:21px;text-align:center}
+.sidebar-bottom {margin-top:auto}
+.profile {
+  border-top:1px solid #ffffff20;padding:20px 7px 0;
+  display:flex;gap:11px;align-items:center;
+}
+.avatar {
+  width:37px;height:37px;border-radius:50%;
+  background:linear-gradient(140deg,#F3A64A,#EF806E);
+  display:grid;place-items:center;color:#173747;font-weight:800;
+}
+.profile strong {font-size:12px;display:block}
+.profile small {font-size:10px;color:#A9C7CB}
+
+/* MAIN */
+.main {margin-left:255px;width:calc(100% - 255px);padding:0 42px 45px}
+.topbar {
+  height:78px;display:flex;align-items:center;
+  justify-content:space-between;border-bottom:1px solid #E4EBE9;
+}
+.breadcrumb {font-size:12px;color:var(--muted)}
+.breadcrumb b {color:var(--ink)}
+.top-actions {display:flex;align-items:center;gap:12px}
+.icon-button {
+  width:38px;height:38px;border-radius:12px;border:1px solid #E2EAE8;
+  background:white;color:var(--ink);font-size:16px;
+}
+.status {font-size:11px;color:#258A77;background:#E0F4ED;padding:8px 12px;border-radius:30px}
+.page {display:none;animation:appear .45s ease}
+.page.active {display:block}
+@keyframes appear {from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero {
+  margin-top:30px;min-height:330px;border-radius:25px;
+  padding:43px 45px;position:relative;overflow:hidden;
+  color:white;
+  background:linear-gradient(105deg,#102B3D 0%,#154858 56%,#147A78 100%);
+  box-shadow:0 20px 45px #153b4c20;
+  display:flex;align-items:center;
+}
+.hero::before {
+  content:"";position:absolute;width:440px;height:440px;
+  border:1px solid #ffffff18;border-radius:50%;
+  right:-90px;top:-190px;
+  box-shadow:0 0 0 35px #ffffff08,0 0 0 75px #ffffff06;
+}
+.hero::after {
+  content:"";position:absolute;width:300px;height:300px;
+  border-radius:50%;right:60px;bottom:-210px;
+  background:#42D6B526;filter:blur(5px);
+}
+.hero-content {max-width:570px;position:relative;z-index:2}
+.eyebrow {font-size:10px;letter-spacing:2.8px;color:#75DCCB;font-weight:800}
+.hero h1 {
+  font:800 clamp(32px,4vw,48px)/1.12 Manrope,sans-serif;
+  letter-spacing:-2px;margin:18px 0 14px;color:white;
+}
+.hero p {font-size:14px;line-height:1.8;color:#D1E6E6;max-width:480px}
+.hero-buttons {display:flex;gap:11px;margin-top:25px;flex-wrap:wrap}
+.primary-btn,.ghost-btn {
+  border:0;padding:13px 19px;border-radius:10px;
+  font-size:12px;font-weight:800;transition:.25s;
+}
+.primary-btn {background:#65D9C5;color:#103746}
+.primary-btn:hover {background:white;transform:translateY(-3px);box-shadow:0 8px 20px #0002}
+.ghost-btn {background:#ffffff14;color:white;border:1px solid #ffffff35}
+.ghost-btn:hover {background:#ffffff25}
+.hero-art {
+  position:absolute;right:8%;top:50%;transform:translateY(-50%);
+  width:260px;height:240px;z-index:1;
+  perspective:800px;
+}
+.orbit {
+  position:absolute;inset:20px 0;border:1px solid #7DE5D555;
+  border-radius:50%;transform:rotate(-24deg) rotateY(55deg);
+  animation:rotate 16s linear infinite;
+}
+.orbit.two {inset:0 30px;transform:rotate(65deg) rotateY(55deg);animation-direction:reverse}
+@keyframes rotate {to{transform:rotate(336deg) rotateY(55deg)}}
+.glass-object {
+  position:absolute;left:75px;top:60px;width:115px;height:115px;
+  border-radius:28px;transform:rotate(-15deg) rotateY(-18deg);
+  background:linear-gradient(145deg,#ffffff55,#35D4B522);
+  border:1px solid #ffffff75;
+  box-shadow:inset 0 0 35px #ffffff25,0 25px 60px #071c2d77;
+  backdrop-filter:blur(12px);
+  display:grid;place-items:center;font-size:46px;
+  animation:float 5s ease-in-out infinite;
+}
+@keyframes float {50%{transform:translateY(-15px) rotate(-8deg) rotateY(8deg)}}
+.float-dot {position:absolute;width:13px;height:13px;border-radius:50%;background:#F3A64A;box-shadow:0 0 25px #F3A64A}
+.dot1 {top:22px;right:25px}
+.dot2 {bottom:32px;left:10px;background:#72E2D0}
+
+/* CONTENT */
+.section-head {display:flex;justify-content:space-between;align-items:end;margin:34px 0 17px;gap:15px}
+.section-head h2 {font:800 19px Manrope;margin:0;color:var(--navy)}
+.section-head p {font-size:11px;color:var(--muted);margin:5px 0 0}
+.text-link {border:0;background:none;color:#168C83;font-size:11px;font-weight:800}
+.metrics {display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.metric {
+  background:white;border:1px solid #E7EEEB;border-radius:17px;
+  padding:19px;position:relative;overflow:hidden;
+  box-shadow:0 5px 20px #163c4c08;transition:.3s;
+}
+.metric:hover {transform:translateY(-5px);box-shadow:0 14px 30px #163c4c12}
+.metric::after {
+  content:"";position:absolute;width:85px;height:85px;
+  right:-35px;bottom:-40px;border-radius:50%;background:#DDF4EC;
+}
+.metric-top {display:flex;justify-content:space-between;align-items:center}
+.metric-icon {width:37px;height:37px;border-radius:11px;display:grid;place-items:center;background:#E2F5EF;font-size:18px}
+.metric-trend {font-size:10px;color:#26957F;background:#E7F6F0;padding:5px 8px;border-radius:20px}
+.metric-number {font:800 29px Manrope;color:var(--navy);margin-top:17px}
+.metric-label {font-size:11px;color:#7B8D94;margin-top:2px}
+.content-grid {display:grid;grid-template-columns:1.35fr 1fr;gap:18px;margin-top:22px}
+.panel {
+  background:white;border:1px solid #E6ECEA;border-radius:18px;
+  padding:22px;box-shadow:0 5px 20px #163c4c08;
+}
+.panel-title {font:800 14px Manrope;color:var(--navy);margin-bottom:5px}
+.panel-subtitle {font-size:11px;color:var(--muted);margin-bottom:19px}
+.challenge {
+  display:flex;gap:14px;padding:15px 0;border-top:1px solid #EDF1EF;
+}
+.challenge-art {
+  flex-shrink:0;width:58px;height:58px;border-radius:13px;
+  display:grid;place-items:center;font-size:25px;
+  background:linear-gradient(145deg,#DDF4EC,#BDE8DD);
+}
+.challenge h3 {font:700 12px Manrope;margin:1px 0 6px;color:var(--navy)}
+.challenge p {font-size:10px;color:var(--muted);margin:0;line-height:1.5}
+.pill {font-size:9px;color:#16877C;background:#E4F5EF;padding:5px 8px;border-radius:20px;white-space:nowrap}
+.steps {display:flex;flex-direction:column;gap:15px}
+.step {display:flex;align-items:center;gap:12px}
+.step-number {
+  width:32px;height:32px;flex-shrink:0;border-radius:10px;
+  background:#E1F5EE;color:#16877C;display:grid;place-items:center;
+  font-size:11px;font-weight:800;
+}
+.step strong {font-size:11px;color:var(--navy)}
+.step small {display:block;color:var(--muted);font-size:10px;margin-top:3px}
+
+/* OTHER PAGES */
+.page-heading {margin:36px 0 22px}
+.page-heading h1 {font:800 30px Manrope;color:var(--navy);margin:0 0 8px}
+.page-heading p {color:var(--muted);font-size:13px}
+.toolbar {display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.search {
+  background:white;border:1px solid #E2EAE8;border-radius:10px;
+  padding:12px 15px;min-width:230px;font:12px 'DM Sans';outline:none;
+}
+.cards {display:grid;grid-template-columns:repeat(2,1fr);gap:17px}
+.info-card {
+  background:white;border:1px solid #E5ECE9;border-radius:17px;
+  padding:21px;transition:.25s;
+}
+.info-card:hover {transform:translateY(-4px);box-shadow:0 14px 30px #163c4c10}
+.info-card h3 {font:800 15px Manrope;color:var(--navy);margin:13px 0 8px}
+.info-card p {font-size:12px;line-height:1.65;color:#71858D}
+.info-card .card-foot {display:flex;justify-content:space-between;align-items:center;margin-top:16px}
+.form-panel {background:white;border:1px solid #E5ECE9;border-radius:18px;padding:25px;max-width:720px}
+.form-panel label {font-size:11px;font-weight:700;display:block;margin:15px 0 7px;color:var(--navy)}
+.form-panel input,.form-panel textarea,.form-panel select {
+  width:100%;padding:12px;border:1px solid #E0E9E6;border-radius:9px;
+  font:12px 'DM Sans';background:#FCFDFD;color:var(--ink);
+}
+.form-panel textarea {min-height:100px;resize:vertical}
+.form-panel button {margin-top:17px}
+.empty-note {color:var(--muted);font-size:12px;padding:25px;text-align:center}
+.footer {text-align:center;color:#8B9CA1;font-size:10px;margin-top:45px;padding:20px;border-top:1px solid #E6ECEA}
+
+/* RESPONSIVE */
+@media(max-width:1000px) {
+  .sidebar {width:215px}
+  .main {margin-left:215px;width:calc(100% - 215px);padding:0 25px}
+  .hero-art {right:1%;opacity:.7}
+  .metrics {grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:700px) {
+  .sidebar {width:65px;padding:18px 8px}
+  .brand {padding:5px 2px 28px}
+  .brand-symbol {width:45px;height:45px}
+  .brand-copy,.menu-label,.nav-text,.profile-copy {display:none}
+  .nav button {justify-content:center;padding:14px 5px}
+  .nav-icon {font-size:19px}
+  .profile {justify-content:center;padding:15px 0 0}
+  .main {margin-left:65px;width:calc(100% - 65px);padding:0 15px}
+  .topbar {height:62px}
+  .hero {padding:30px 23px;min-height:310px}
+  .hero-art {opacity:.2;right:-65px}
+  .hero h1 {font-size:33px}
+  .content-grid,.cards {grid-template-columns:1fr}
+  .metrics {gap:9px}
+  .metric {padding:13px}
+  .metric-number {font-size:24px}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<aside class="sidebar">
+  <div class="brand">
+    <div class="brand-symbol">✳️</div>
+    <div class="brand-copy">
+      <div class="brand-name">InovaSUS <span>Connect</span></div>
+      <div class="brand-sub">INOVAÇÃO EM SAÚDE PÚBLICA</div>
+    </div>
+  </div>
+
+  <div class="menu-label">ESPAÇO DE INOVAÇÃO</div>
+  <nav class="nav">
+    <button class="active" data-page="inicio"><span class="nav-icon">⌂</span><span class="nav-text">Visão geral</span></button>
+    <button data-page="desafios"><span class="nav-icon">◎</span><span class="nav-text">Mural de desafios</span></button>
+    <button data-page="talentos"><span class="nav-icon">♧</span><span class="nav-text">Talentos e equipes</span></button>
+    <button data-page="trilha"><span class="nav-icon">◇</span><span class="nav-text">Trilha empreendedora</span></button>
+    <button data-page="solucoes"><span class="nav-icon">✧</span><span class="nav-text">Vitrine de soluções</span></button>
+    <button data-page="avaliacao"><span class="nav-icon">◈</span><span class="nav-text">Avaliação de projetos</span></button>
+  </nav>
+
+  <div class="sidebar-bottom">
+    <div class="profile">
+      <div class="avatar">IC</div>
+      <div class="profile-copy">
+        <strong>Comunidade InovaSUS</strong>
+        <small>Ambiente colaborativo</small>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div class="breadcrumb">InovaSUS Connect <span style="color:#B6C4C5"> / </span> <b id="crumb">Visão geral</b></div>
+    <div class="top-actions">
+      <span class="status">● Plataforma demonstrativa</span>
+      <button class="icon-button" title="Notificações">♧</button>
+    </div>
+  </header>
+
+  <!-- INÍCIO -->
+  <section class="page active" id="inicio">
+    <div class="hero">
+      <div class="hero-content">
+        <div class="eyebrow">INOVAÇÃO • CONHECIMENTO • IMPACTO</div>
+        <h1>Ideias que transformam.<br>Conexões que fazem<br>o SUS avançar.</h1>
+        <p>Uma rede colaborativa que aproxima os desafios reais dos serviços públicos de saúde do conhecimento acadêmico e da inovação social.</p>
+        <div class="hero-buttons">
+          <button class="primary-btn" onclick="go('desafios')">Explorar desafios ↗️</button>
+          <button class="ghost-btn" onclick="go('trilha')">Conhecer a jornada</button>
+        </div>
+      </div>
+      <div class="hero-art">
+        <div class="orbit"></div><div class="orbit two"></div>
+        <div class="glass-object">✳️</div>
+        <div class="float-dot dot1"></div><div class="float-dot dot2"></div>
+      </div>
+    </div>
+
+    <div class="section-head">
+      <div><h2>Panorama da inovação</h2><p>Um olhar sobre o ecossistema colaborativo</p></div>
+      <span class="pill">DADOS DE DEMONSTRAÇÃO</span>
+    </div>
+
+    <div class="metrics">
+      <div class="metric"><div class="metric-top"><div class="metric-icon">◎</div><span class="metric-trend">Ecossistema</span></div><div class="metric-number" id="countChallenges">03</div><div class="metric-label">Desafios publicados</div></div>
+      <div class="metric"><div class="metric-top"><div class="metric-icon">♧</div><span class="metric-trend">Colaboração</span></div><div class="metric-number" id="countTalents">00</div><div class="metric-label">Talentos conectados</div></div>
+      <div class="metric"><div class="metric-top"><div class="metric-icon">◇</div><span class="metric-trend">Desenvolvimento</span></div><div class="metric-number" id="countProjects">02</div><div class="metric-label">Projetos em andamento</div></div>
+      <div class="metric"><div class="metric-top"><div class="metric-icon">✧</div><span class="metric-trend">Impacto</span></div><div class="metric-number">00</div><div class="metric-label">Soluções validadas</div></div>
+    </div>
+
+    <div class="content-grid">
+      <div class="panel">
+        <div class="panel-title">Desafios em destaque</div>
+        <div class="panel-subtitle">Necessidades reais que inspiram novas soluções</div>
+        <div id="featuredChallenges">
+          <div class="challenge"><div class="challenge-art">♡</div><div><h3>Educação em saúde da mulher</h3><p>Recursos educativos acessíveis sobre saúde ginecológica e autocuidado.</p></div><span class="pill">Saúde da mulher</span></div>
+          <div class="challenge"><div class="challenge-art">⌂</div><div><h3>Adesão às consultas na APS</h3><p>Estratégias para melhorar o acompanhamento dos usuários.</p></div><span class="pill">APS</span></div>
+          <div class="challenge"><div class="challenge-art">✳️</div><div><h3>Acolhimento na rede pública</h3><p>Qualificar a experiência de cuidado nos serviços.</p></div><span class="pill">Humanização</span></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">A jornada da inovação</div>
+        <div class="panel-subtitle">Do problema à transformação social</div>
+        <div class="steps">
+          <div class="step"><div class="step-number">01</div><div><strong>Empatia</strong><small>Compreender o contexto e ouvir pessoas.</small></div></div>
+          <div class="step"><div class="step-number">02</div><div><strong>Ideação</strong><small>Construir possibilidades em equipe.</small></div></div>
+          <div class="step"><div class="step-number">03</div><div><strong>Prototipação</strong><small>Transformar ideias em experiências.</small></div></div>
+          <div class="step"><div class="step-number">04</div><div><strong>Validação</strong><small>Testar e aprimorar soluções.</small></div></div>
+          <div class="step"><div class="step-number">05</div><div><strong>Pitch</strong><small>Apresentar impacto e viabilidade.</small></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESAFIOS -->
+  <section class="page" id="desafios">
+    <div class="page-heading"><div class="eyebrow">ESCUTA • NECESSIDADES • OPORTUNIDADES</div><h1>Mural de desafios</h1><p>Problemas reais dos serviços de saúde que podem se transformar em inovação.</p></div>
+    <div class="toolbar"><input class="search" id="searchChallenge" placeholder="⌕  Buscar desafios..." oninput="renderChallenges()"><button class="primary-btn" onclick="showForm('challengeForm')">＋ Publicar desafio</button></div>
+    <div class="form-panel" id="challengeForm" style="display:none;margin-bottom:20px">
+      <h3>Novo desafio</h3>
+      <label>Título</label><input id="challengeTitle" placeholder="Ex.: Melhorar a comunicação com usuários">
+      <label>Área temática</label><select id="challengeArea"><option>Atenção Primária</option><option>Saúde da Mulher</option><option>Saúde da Criança</option><option>Saúde do Idoso</option><option>Humanização</option><option>Gestão em Saúde</option><option>Tecnologia em Saúde</option></select>
+      <label>Descrição do problema</label><textarea id="challengeDescription" placeholder="Conte o que acontece no serviço..."></textarea>
+      <button class="primary-btn" onclick="addChallenge()">Publicar desafio ↗️</button>
+    </div>
+    <div class="cards" id="challengeCards"></div>
+  </section>
+
+  <!-- TALENTOS -->
+  <section class="page" id="talentos">
+    <div class="page-heading"><div class="eyebrow">PESSOAS • COMPETÊNCIAS • COLABORAÇÃO</div><h1>Talentos e equipes</h1><p>Conhecimento multidisciplinar para criar respostas aos desafios do SUS.</p></div>
+    <div class="form-panel">
+      <h3>Apresente seu talento</h3>
+      <label>Nome</label><input id="talentName" placeholder="Seu nome">
+      <label>Universidade ou instituição</label><input id="talentInstitution" placeholder="Sua instituição">
+      <label>Área de atuação</label><select id="talentArea"><option>Enfermagem</option><option>Medicina</option><option>Fisioterapia</option><option>Nutrição</option><option>Psicologia</option><option>Tecnologia</option><option>Design</option><option>Gestão em Saúde</option><option>Pesquisa</option></select>
+      <label>Competências</label><input id="talentSkills" placeholder="Ex.: pesquisa, educação em saúde, design">
+      <button class="primary-btn" onclick="addTalent()">Cadastrar perfil ↗️</button>
+    </div>
+    <div class="section-head"><div><h2>Rede de talentos</h2><p>Participantes cadastrados nesta demonstração</p></div></div>
+    <div class="cards" id="talentCards"><div class="info-card empty-note">Os perfis cadastrados aparecerão aqui.</div></div>
+  </section>
+
+  <!-- TRILHA -->
+  <section class="page" id="trilha">
+    <div class="page-heading"><div class="eyebrow">DO PROBLEMA À SOLUÇÃO</div><h1>Trilha empreendedora</h1><p>Uma jornada estruturada para desenvolver projetos de inovação social em saúde.</p></div>
+    <div class="cards">
+      <div class="info-card"><span class="pill">01 • DESCOBERTA</span><h3>Empatia</h3><p>Investigue a realidade do serviço, converse com usuários e profissionais e compreenda as necessidades prioritárias.</p></div>
+      <div class="info-card"><span class="pill">02 • CRIAÇÃO</span><h3>Ideação</h3><p>Explore alternativas, organize ideias e selecione propostas com potencial de transformação.</p></div>
+      <div class="info-card"><span class="pill">03 • DESENVOLVIMENTO</span><h3>Prototipação</h3><p>Construa uma versão inicial da solução para tornar a ideia concreta e testável.</p></div>
+      <div class="info-card"><span class="pill">04 • EXPERIMENTAÇÃO</span><h3>Validação</h3><p>Teste a proposta com o público envolvido, colete feedback e aprimore o projeto.</p></div>
+      <div class="info-card"><span class="pill">05 • APRESENTAÇÃO</span><h3>Pitch</h3><p>Apresente problema, solução, viabilidade e impacto esperado para a rede colaborativa.</p></div>
+    </div>
+  </section>
+
+  <!-- SOLUÇÕES -->
+  <section class="page" id="solucoes">
+    <div class="page-heading"><div class="eyebrow">RESULTADOS • CRIATIVIDADE • IMPACTO</div><h1>Vitrine de soluções</h1><p>Ideias que saem do papel e ganham forma para transformar o cuidado em saúde.</p></div>
+    <div class="toolbar"><button class="primary-btn" onclick="showForm('solutionForm')">＋ Apresentar solução</button></div>
+    <div class="form-panel" id="solutionForm" style="display:none;margin-bottom:20px">
+      <h3>Nova solução</h3>
+      <label>Nome do projeto</label><input id="solutionTitle" placeholder="Nome da solução">
+      <label>Área temática</label><input id="solutionArea" placeholder="Área de atuação">
+      <label>Apresentação</label><textarea id="solutionDescription" placeholder="Descreva a proposta..."></textarea>
+      <button class="primary-btn" onclick="addSolution()">Adicionar à vitrine ↗️</button>
+    </div>
+    <div class="cards" id="solutionCards"></div>
+  </section>
+
+  <!-- AVALIAÇÃO -->
+  <section class="page" id="avaliacao">
+    <div class="page-heading"><div class="eyebrow">QUALIDADE • VIABILIDADE • TRANSFORMAÇÃO</div><h1>Avaliação de projetos</h1><p>Analise o potencial de inovação e o impacto das propostas desenvolvidas.</p></div>
+    <div class="form-panel">
+      <h3>Matriz de avaliação</h3>
+      <label>Projeto</label><input id="evalProject" placeholder="Nome do projeto avaliado">
+      <label>Potencial de inovação (0–10)</label><input id="evalInnovation" type="number" min="0" max="10" value="5">
+      <label>Viabilidade de execução (0–10)</label><input id="evalFeasibility" type="number" min="0" max="10" value="5">
+      <label>Impacto potencial no SUS (0–10)</label><input id="evalImpact" type="number" min="0" max="10" value="5">
+      <label>Sustentabilidade (0–10)</label><input id="evalSustainability" type="number" min="0" max="10" value="5">
+      <label>Feedback e recomendações</label><textarea id="evalFeedback" placeholder="Registre sua análise..."></textarea>
+      <button class="primary-btn" onclick="evaluateProject()">Concluir avaliação ↗️</button>
+      <div id="evalResult" style="margin-top:15px;font-weight:700;color:#16877C"></div>
+    </div>
+  </section>
+
+  <footer class="footer">INOVASUS CONNECT · Conectando conhecimento, transformando o SUS.</footer>
+</main>
+</div>
+
+<script>
+const challenges = [
+ {title:"Educação em saúde da mulher",area:"Saúde da Mulher",description:"Desenvolver recursos educativos acessíveis sobre saúde ginecológica e autocuidado.",icon:"♡"},
+ {title:"Adesão às consultas na APS",area:"Atenção Primária",description:"Criar estratégias para melhorar o acompanhamento dos usuários.",icon:"⌂"},
+ {title:"Acolhimento na rede pública",area:"Humanização",description:"Qualificar a experiência de cuidado nos serviços de saúde.",icon:"✳️"}
+];
+const talents = [];
+const solutions = [
+ {title:"Acolhe SUS",area:"Humanização",description:"Proposta de melhoria do acolhimento e da experiência dos usuários nos serviços públicos.",stage:"Ideação"},
+ {title:"Saúde em Rede",area:"Atenção Primária",description:"Estratégia colaborativa de educação e comunicação em saúde.",stage:"Prototipação"}
+];
+
+function go(page) {
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(page).classList.add("active");
+ document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+ const names={inicio:"Visão geral",desafios:"Mural de desafios",talentos:"Talentos e equipes",trilha:"Trilha empreendedora",solucoes:"Vitrine de soluções",avaliacao:"Avaliação de projetos"};
+ document.getElementById("crumb").textContent=names[page];
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>go(b.dataset.page)));
+
+function showForm(id) {
+ const el=document.getElementById(id);
+ el.style.display=el.style.display==="none"?"block":"none";
+}
+function renderChallenges() {
+ const query=(document.getElementById("searchChallenge").value||"").toLowerCase();
+ document.getElementById("challengeCards").innerHTML=challenges.filter(c=>(c.title+c.area+c.description).toLowerCase().includes(query)).map(c=>`
+ <div class="info-card"><span class="pill">${c.area}</span><h3>${c.icon} ${c.title}</h3><p>${c.description}</p><div class="card-foot"><span class="small-muted">Desafio aberto</span><button class="text-link" onclick="alert('Interesse registrado nesta demonstração.')">Tenho interesse ↗️</button></div></div>`).join("") || '<div class="empty-note">Nenhum desafio encontrado.</div>';
+ document.getElementById("countChallenges").textContent=String(challenges.length).padStart(2,"0");
+}
+function addChallenge() {
+ const title=document.getElementById("challengeTitle").value.trim();
+ const description=document.getElementById("challengeDescription").value.trim();
+ if(!title||!description){alert("Preencha o título e a descrição.");return}
+ challenges.push({title,area:document.getElementById("challengeArea").value,description,icon:"✧"});
+ document.getElementById("challengeTitle").value="";
+ document.getElementById("challengeDescription").value="";
+ renderChallenges();
+ alert("Desafio publicado nesta demonstração!");
+}
+function addTalent() {
+ const name=document.getElementById("talentName").value.trim();
+ if(!name){alert("Informe seu nome.");return}
+ talents.push({name,institution:document.getElementById("talentInstitution").value,area:document.getElementById("talentArea").value,skills:document.getElementById("talentSkills").value});
+ document.getElementById("talentName").value="";
+ renderTalents();
+}
+function renderTalents() {
+ document.getElementById("talentCards").innerHTML=talents.map(t=><div class="info-card"><span class="pill">${t.area}</span><h3>♧ ${t.name}</h3><p>${t.institution}</p><p>Competências: ${t.skills||"Não informadas"}</p></div>).join("")||'<div class="info-card empty-note">Os perfis cadastrados aparecerão aqui.</div>';
+ document.getElementById("countTalents").textContent=String(talents.length).padStart(2,"0");
+}
+function addSolution() {
+ const title=document.getElementById("solutionTitle").value.trim();
+ const description=document.getElementById("solutionDescription").value.trim();
+ if(!title||!description){alert("Informe o nome e a apresentação.");return}
+ solutions.push({title,area:document.getElementById("solutionArea").value||"Inovação",description,stage:"Ideação"});
+ renderSolutions();
+ document.getElementById("solutionTitle").value="";
+ document.getElementById("solutionDescription").value="";
+}
+function renderSolutions() {
+ document.getElementById("solutionCards").innerHTML=solutions.map(s=><div class="info-card"><span class="pill">${s.area}</span><h3>✧ ${s.title}</h3><p>${s.description}</p><div class="card-foot"><span class="small-muted">Etapa: ${s.stage}</span><span>↗️</span></div></div>).join("");
+ document.getElementById("countProjects").textContent=String(solutions.length).padStart(2,"0");
+}
+function evaluateProject() {
+ const ids=["evalInnovation","evalFeasibility","evalImpact","evalSustainability"];
+ const values=ids.map(id=>Math.max(0,Math.min(10,Number(document.getElementById(id).value)||0)));
+ const average=values.reduce((a,b)=>a+b,0)/4;
+ document.getElementById("evalResult").textContent="Média: "+average.toFixed(1)+"/10 — "+(average>=7?"Potencial para desenvolvimento piloto.":"A proposta pode ser aprimorada antes do piloto.");
+}
+renderChallenges();
+renderSolutions();
+</script>
+</body>
+</html>
