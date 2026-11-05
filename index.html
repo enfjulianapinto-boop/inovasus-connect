@@ -517,5 +517,54 @@ function evaluateProject() {
 renderChallenges();
 renderSolutions();
 </script>
+<!-- TELA DE BOAS-VINDAS -->
+<style>
+#welcome-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #123047;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 30px;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+#welcome-screen h1 {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+
+#welcome-screen p {
+  font-size: 17px;
+  line-height: 1.6;
+  color: #d8e8e7;
+}
+
+#welcome-screen button {
+  margin-top: 25px;
+  padding: 15px 45px;
+  border: none;
+  border-radius: 12px;
+  background: #0f8b8d;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+</style>
+
+<div id="welcome-screen">
+  <div>
+    <h1>InovaSUS Connect</h1>
+    <p>Conectando conhecimento,<br>transformando o SUS.</p>
+    <button onclick="document.getElementById('welcome-screen').style.display='none'; alert('Próxima etapa: acesso à plataforma!')">
+      COMEÇAR
+    </button>
+  </div>
+</div>
 </body>
 </html>
