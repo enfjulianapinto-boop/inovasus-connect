@@ -566,15 +566,93 @@ renderSolutions();
     </button>
   </div>
 </div>
-<!-- TELA DE ACESSO -->
-<div id="access-screen" style="display:none; position:fixed; inset:0; z-index:100000; min-height:100vh; background:#123047; color:white; align-items:center; justify-content:center; text-align:center; font-family:Arial,sans-serif; padding:30px;">  <div>
-    <h1>InovaSUS Connect</h1>
-    <p>Conectando conhecimento, transformando o SUS.</p>
-    <h2>Como deseja continuar?</h2>
-    <button onclick="showScreen('login-screen')" class="access-btn">ENTRAR</button>
-    <button onclick="showScreen('register-screen')" class="access-btn">CRIAR CONTA</button>
+<!-- TELA DE ACESSO ÚNICA -->
+<div id="access-screen" style="display:none; position:fixed; inset:0; z-index:100000; min-height:100vh; background:#123047; color:#123047; align-items:center; justify-content:center; font-family:Arial,sans-serif; padding:20px; box-sizing:border-box;">
+
+  <div style="background:white; width:100%; max-width:460px; padding:32px; border-radius:18px; box-sizing:border-box;">
+
+    <h1 style="text-align:center; color:#123047;">InovaSUS Connect</h1>
+    <p style="text-align:center; color:#637481;">Conectando conhecimento, transformando o SUS.</p>
+
+    <div style="display:flex; gap:10px; margin:25px 0;">
+      <button id="tab-login" onclick="switchAuth('login')" style="flex:1; padding:13px; border:0; border-radius:9px; background:#0f8b8d; color:white; font-weight:bold; cursor:pointer;">ENTRAR</button>
+
+      <button id="tab-register" onclick="switchAuth('register')" style="flex:1; padding:13px; border:0; border-radius:9px; background:#e8eeee; color:#123047; font-weight:bold; cursor:pointer;">CRIAR CONTA</button>
+    </div>
+
+    <!-- FORMULÁRIO ENTRAR -->
+    <div id="auth-login">
+      <h2>Bem-vinda de volta!</h2>
+
+      <form onsubmit="event.preventDefault(); showScreen('dashboard-screen');">
+        <label>E-mail</label>
+        <input type="email" placeholder="Digite seu e-mail" required style="width:100%;padding:13px;margin:8px 0 16px;box-sizing:border-box;border:1px solid #ccd8dc;border-radius:9px;">
+
+        <label>Senha</label>
+        <input type="password" placeholder="Digite sua senha" required style="width:100%;padding:13px;margin:8px 0 16px;box-sizing:border-box;border:1px solid #ccd8dc;border-radius:9px;">
+
+        <button type="submit" class="main-btn">ENTRAR</button>
+      </form>
+
+      <button class="text-btn" onclick="switchAuth('register')">Ainda não tem conta? Criar conta</button>
+      <br>
+      <button class="text-btn" onclick="showScreen('recovery-screen')">Esqueci minha senha</button>
+    </div>
+
+    <!-- FORMULÁRIO CRIAR CONTA -->
+    <div id="auth-register" style="display:none;">
+      <h2>Crie sua conta</h2>
+
+      <form onsubmit="event.preventDefault(); showScreen('dashboard-screen');">
+        <label>Nome completo</label>
+        <input type="text" placeholder="Digite seu nome completo" required style="width:100%;padding:13px;margin:8px 0 16px;box-sizing:border-box;border:1px solid #ccd8dc;border-radius:9px;">
+
+        <label>E-mail</label>
+        <input type="email" placeholder="Digite seu e-mail" required style="width:100%;padding:13px;margin:8px 0 16px;box-sizing:border-box;border:1px solid #ccd8dc;border-radius:9px;">
+
+        <label>Senha</label>
+        <input type="password" placeholder="Crie uma senha" required style="width:100%;padding:13px;margin:8px 0 16px;box-sizing:border-box;border:1px solid #ccd8dc;border-radius:9px;">
+
+        <label>Tipo de perfil</label>
+        <select required style="width:100%;padding:13px;margin:8px 0 16px;box-sizing:border-box;border:1px solid #ccd8dc;border-radius:9px;">
+          <option value="">Selecione seu perfil</option>
+          <option>Profissional de saúde</option>
+          <option>Gestor de saúde</option>
+        </select>
+
+        <label>Unidade / Secretaria de Saúde</label>
+        <input type="text" placeholder="Informe sua unidade ou secretaria" required style="width:100%;padding:13px;margin:8px 0 16px;box-sizing:border-box;border:1px solid #ccd8dc;border-radius:9px;">
+
+        <button type="submit" class="main-btn">CADASTRAR</button>
+      </form>
+
+      <button class="text-btn" onclick="switchAuth('login')">Já tem conta? Entrar</button>
+    </div>
+
   </div>
 </div>
+
+<script>
+function switchAuth(mode) {
+  document.getElementById('auth-login').style.display =
+    mode === 'login' ? 'block' : 'none';
+
+  document.getElementById('auth-register').style.display =
+    mode === 'register' ? 'block' : 'none';
+
+  document.getElementById('tab-login').style.background =
+    mode === 'login' ? '#0f8b8d' : '#e8eeee';
+
+  document.getElementById('tab-login').style.color =
+    mode === 'login' ? 'white' : '#123047';
+
+  document.getElementById('tab-register').style.background =
+    mode === 'register' ? '#0f8b8d' : '#e8eeee';
+
+  document.getElementById('tab-register').style.color =
+    mode === 'register' ? 'white' : '#123047';
+}
+</script>
 
 <!-- TELA DE LOGIN -->
 <div id="login-screen" class="form-screen">
