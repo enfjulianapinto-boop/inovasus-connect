@@ -561,10 +561,190 @@ renderSolutions();
   <div>
     <h1>InovaSUS Connect</h1>
     <p>Conectando conhecimento,<br>transformando o SUS.</p>
-    <button onclick="document.getElementById('welcome-screen').style.display='none'; alert('Próxima etapa: acesso à plataforma!')">
       COMEÇAR
     </button>
   </div>
 </div>
+<!-- TELA DE ACESSO -->
+<div id="access-screen" style="display:none; min-height:100vh; background:#123047; color:white; align-items:center; justify-content:center; text-align:center; font-family:Arial,sans-serif; padding:30px;">
+  <div>
+    <h1>InovaSUS Connect</h1>
+    <p>Conectando conhecimento, transformando o SUS.</p>
+    <h2>Como deseja continuar?</h2>
+    <button onclick="showScreen('login-screen')" class="access-btn">ENTRAR</button>
+    <button onclick="showScreen('register-screen')" class="access-btn">CRIAR CONTA</button>
+  </div>
+</div>
+
+<!-- TELA DE LOGIN -->
+<div id="login-screen" class="form-screen">
+  <div class="form-card">
+    <h1>Bem-vinda de volta!</h1>
+    <p>Acesse sua conta InovaSUS Connect.</p>
+
+    <form onsubmit="event.preventDefault(); showScreen('dashboard-screen');">
+      <label>E-mail</label>
+      <input type="email" placeholder="Digite seu e-mail" required>
+
+      <label>Senha</label>
+      <input type="password" placeholder="Digite sua senha" required>
+
+      <button type="submit" class="main-btn">ENTRAR</button>
+    </form>
+
+    <button class="text-btn" onclick="showScreen('recovery-screen')">Esqueci minha senha</button>
+    <p>Não tem conta? <button class="text-btn" onclick="showScreen('register-screen')">Criar conta</button></p>
+    <button class="text-btn" onclick="showScreen('access-screen')">Voltar</button>
+  </div>
+</div>
+
+<!-- TELA DE CADASTRO -->
+<div id="register-screen" class="form-screen">
+  <div class="form-card">
+    <h1>Crie sua conta</h1>
+    <p>Faça parte da rede de inovação em saúde pública.</p>
+
+    <form onsubmit="event.preventDefault(); showScreen('dashboard-screen');">
+      <label>Nome completo</label>
+      <input type="text" placeholder="Digite seu nome completo" required>
+
+      <label>E-mail</label>
+      <input type="email" placeholder="Digite seu e-mail" required>
+
+      <label>Senha</label>
+      <input type="password" placeholder="Crie uma senha" required>
+
+      <label>Confirmar senha</label>
+      <input type="password" placeholder="Digite a senha novamente" required>
+
+      <label>Tipo de perfil</label>
+      <select required>
+        <option value="">Selecione seu perfil</option>
+        <option>Profissional de saúde</option>
+        <option>Gestor de saúde</option>
+      </select>
+
+      <label>Unidade / Secretaria de Saúde</label>
+      <input type="text" placeholder="Informe sua unidade ou secretaria" required>
+
+      <button type="submit" class="main-btn">CADASTRAR</button>
+    </form>
+
+    <p>Já tem conta? <button class="text-btn" onclick="showScreen('login-screen')">Entrar</button></p>
+    <button class="text-btn" onclick="showScreen('access-screen')">Voltar</button>
+  </div>
+</div>
+
+<!-- RECUPERAÇÃO DE SENHA -->
+<div id="recovery-screen" class="form-screen">
+  <div class="form-card">
+    <h1>Recuperar senha</h1>
+    <p>Informe seu e-mail para recuperar o acesso.</p>
+    <form onsubmit="event.preventDefault(); showScreen('login-screen');">
+      <label>E-mail</label>
+      <input type="email" placeholder="Digite seu e-mail" required>
+      <button type="submit" class="main-btn">CONTINUAR</button>
+    </form>
+    <button class="text-btn" onclick="showScreen('login-screen')">Voltar ao login</button>
+  </div>
+</div>
+
+<!-- PAINEL INICIAL -->
+<div id="dashboard-screen" class="form-screen">
+  <div class="form-card">
+    <h1>Bem-vinda ao InovaSUS Connect!</h1>
+    <p>Seu espaço de conexão, conhecimento e inovação no SUS.</p>
+    <button class="main-btn" onclick="showScreen('access-screen')">SAIR</button>
+  </div>
+</div>
+
+<style>
+.form-screen {
+  display: none;
+  min-height: 100vh;
+  background: #f7f8f5;
+  color: #123047;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 15px;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 460px;
+  background: white;
+  padding: 35px;
+  border-radius: 18px;
+  box-shadow: 0 10px 35px rgba(18,48,71,.12);
+  box-sizing: border-box;
+}
+
+.form-card h1 { color: #123047; }
+.form-card p { color: #637481; line-height: 1.5; }
+
+.form-card label {
+  display: block;
+  margin-top: 16px;
+  margin-bottom: 7px;
+  font-weight: bold;
+}
+
+.form-card input, .form-card select {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #ccd8dc;
+  border-radius: 9px;
+  box-sizing: border-box;
+  font-size: 15px;
+  background: white;
+}
+
+.main-btn, .access-btn {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  background: #0f8b8d;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.access-btn { max-width: 280px; margin-left: auto; margin-right: auto; }
+
+.text-btn {
+  border: none;
+  background: none;
+  color: #0f8b8d;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 8px;
+}
+</style>
+
+<script>
+function showScreen(screenId) {
+  document.getElementById('welcome-screen').style.display = 'none';
+
+  const screens = [
+    'access-screen',
+    'login-screen',
+    'register-screen',
+    'recovery-screen',
+    'dashboard-screen'
+  ];
+
+  screens.forEach(function(id) {
+    document.getElementById(id).style.display = 'none';
+  });
+
+  const selected = document.getElementById(screenId);
+  selected.style.display = 'flex';
+}
+</script>
 </body>
 </html>
