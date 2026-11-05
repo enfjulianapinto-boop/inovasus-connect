@@ -584,16 +584,15 @@ renderSolutions();
     <div id="auth-login">
       <h2>Bem-vinda de volta!</h2>
 
-      <form onsubmit="event.preventDefault(); showScreen('dashboard-screen');">
-        <label>E-mail</label>
-        <input type="email" placeholder="Digite seu e-mail" required style="width:100%;padding:13px;margin:8px 0 16px;box-sizing:border-box;border:1px solid #ccd8dc;border-radius:9px;">
+      <form onsubmit="loginUser(event)">
+  <label>E-mail</label>
+  <input id="login-email" type="email" placeholder="Digite seu e-mail" required style="width:100%;padding:13px;margin:8px 0 16px;box-sizing:border-box;border:1px solid #ccd8dc;border-radius:9px;">
 
-        <label>Senha</label>
-        <input type="password" placeholder="Digite sua senha" required style="width:100%;padding:13px;margin:8px 0 16px;box-sizing:border-box;border:1px solid #ccd8dc;border-radius:9px;">
+  <label>Senha</label>
+  <input id="login-password" type="password" placeholder="Digite sua senha" required style="width:100%;padding:13px;margin:8px 0 16px;box-sizing:border-box;border:1px solid #ccd8dc;border-radius:9px;">
 
-        <button type="submit" class="main-btn">ENTRAR</button>
-      </form>
-
+  <button type="submit" class="main-btn">ENTRAR</button>
+</form>
       <button class="text-btn" onclick="switchAuth('register')">Ainda não tem conta? Criar conta</button>
       <br>
       <button class="text-btn" onclick="showScreen('recovery-screen')">Esqueci minha senha</button>
@@ -603,28 +602,28 @@ renderSolutions();
     <div id="auth-register" style="display:none;">
       <h2>Crie sua conta</h2>
 
-      <form onsubmit="event.preventDefault(); showScreen('dashboard-screen');">
-        <label>Nome completo</label>
-        <input type="text" placeholder="Digite seu nome completo" required style="width:100%;padding:13px;margin:8px 0 16px;box-sizing:border-box;border:1px solid #ccd8dc;border-radius:9px;">
+      <form onsubmit="registerUser(event)">
+  <label>Nome completo</label>
+  <input id="reg-name" type="text" placeholder="Digite seu nome completo" required style="width:100%;padding:13px;margin:8px 0 16px;box-sizing:border-box;border:1px solid #ccd8dc;border-radius:9px;">
 
-        <label>E-mail</label>
-        <input type="email" placeholder="Digite seu e-mail" required style="width:100%;padding:13px;margin:8px 0 16px;box-sizing:border-box;border:1px solid #ccd8dc;border-radius:9px;">
+  <label>E-mail</label>
+  <input id="reg-email" type="email" placeholder="Digite seu e-mail" required style="width:100%;padding:13px;margin:8px 0 16px;box-sizing:border-box;border:1px solid #ccd8dc;border-radius:9px;">
 
-        <label>Senha</label>
-        <input type="password" placeholder="Crie uma senha" required style="width:100%;padding:13px;margin:8px 0 16px;box-sizing:border-box;border:1px solid #ccd8dc;border-radius:9px;">
+  <label>Senha</label>
+  <input id="reg-password" type="password" placeholder="Crie uma senha" required style="width:100%;padding:13px;margin:8px 0 16px;box-sizing:border-box;border:1px solid #ccd8dc;border-radius:9px;">
 
-        <label>Tipo de perfil</label>
-        <select required style="width:100%;padding:13px;margin:8px 0 16px;box-sizing:border-box;border:1px solid #ccd8dc;border-radius:9px;">
-          <option value="">Selecione seu perfil</option>
-          <option>Profissional de saúde</option>
-          <option>Gestor de saúde</option>
-        </select>
+  <label>Tipo de perfil</label>
+  <select id="reg-profile" required style="width:100%;padding:13px;margin:8px 0 16px;box-sizing:border-box;border:1px solid #ccd8dc;border-radius:9px;">
+    <option value="">Selecione seu perfil</option>
+    <option value="Profissional de saúde">Profissional de saúde</option>
+    <option value="Gestor de saúde">Gestor de saúde</option>
+  </select>
 
-        <label>Unidade / Secretaria de Saúde</label>
-        <input type="text" placeholder="Informe sua unidade ou secretaria" required style="width:100%;padding:13px;margin:8px 0 16px;box-sizing:border-box;border:1px solid #ccd8dc;border-radius:9px;">
+  <label>Unidade / Secretaria de Saúde</label>
+  <input id="reg-organization" type="text" placeholder="Informe sua unidade ou secretaria" required style="width:100%;padding:13px;margin:8px 0 16px;box-sizing:border-box;border:1px solid #ccd8dc;border-radius:9px;">
 
-        <button type="submit" class="main-btn">CADASTRAR</button>
-      </form>
+  <button type="submit" class="main-btn">CADASTRAR</button>
+</form>
 
       <button class="text-btn" onclick="switchAuth('login')">Já tem conta? Entrar</button>
     </div>
@@ -835,6 +834,52 @@ const supabaseClient = supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
+async function registerUser(event) {
+  event.preventDefault();
+
+  const nome = document.getElementById('reg-name').value;
+  const email = document.getElementById('reg-email').value;
+  const senha = document.getElementById('reg-password').value;
+  const perfil = document.getElementById('reg-profile').value;
+  const unidade = document.getElementById('reg-organization').value;
+
+  const { data, error } = await supabaseClient.auth.signUp({
+    email: email,
+    password: senha,
+    options: {
+      data: {
+        nome_completo: nome,
+        tipo_perfil: perfil,
+        unidade: unidade
+      }
+    }
+  });
+
+  if (error) {
+    alert('Erro ao cadastrar: ' + error.message);
+    return;
+  }
+
+  alert('Cadastro realizado! Verifique seu e-mail para confirmar sua conta.');
+}
+async function loginUser(event) {
+  event.preventDefault();
+
+  const email = document.getElementById('login-email').value;
+  const senha = document.getElementById('login-password').value;
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: senha
+  });
+
+  if (error) {
+    alert('Não foi possível entrar: ' + error.message);
+    return;
+  }
+
+  showScreen('dashboard-screen');
+}
 </script>
 </body>
 </html>
