@@ -824,5 +824,17 @@ function showScreen(screenId) {
   selected.style.display = 'flex';
 }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = 'https://zqistjkfcptqujduwpqt.supabase.co';
+
+const SUPABASE_KEY = 'sb_publishable_s8GT3n5qHmy4oB3A4h9hyw_3LAGi8_c';
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+</script>
 </body>
 </html>
