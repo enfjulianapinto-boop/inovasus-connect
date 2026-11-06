@@ -872,10 +872,12 @@ async function loginUser(event) {
     password: senha
   });
 
-  if (error) {
-    alert('Não foi possível entrar: ' + error.message);
-    return;
-  }
+if (error) {
+  const mensagem = document.getElementById('login-message');
+  mensagem.textContent = 'Não foi possível acessar sua conta. Verifique seu e-mail e sua senha ou crie uma conta.';
+  mensagem.style.display = 'block';
+  return;
+}
 
   showScreen('dashboard-screen');
 }
