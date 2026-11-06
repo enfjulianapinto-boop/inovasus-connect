@@ -902,10 +902,10 @@ async function resetPassword(event) {
     redirectTo: 'https://enfjulianapinto-boop.github.io/inovasus-connect/'
   });
 
-  if (error) {
-    mensagem.textContent = 'Não foi possível enviar o link. Verifique o e-mail informado.';
-    mensagem.style.color = '#b42318';
-  } else {
+ if (error) {
+  mensagem.textContent = 'Erro: ' + error.message;
+  mensagem.style.color = '#b42318';
+}else {
     mensagem.textContent = 'Se este e-mail estiver cadastrado, você receberá um link para redefinir sua senha. Verifique também o spam.';
     mensagem.style.color = '#16877C';
   }
