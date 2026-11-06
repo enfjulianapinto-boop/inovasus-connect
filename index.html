@@ -844,8 +844,9 @@ async function registerUser(event) {
   const { data, error } = await supabaseClient.auth.signUp({
     email: email,
     password: senha,
-    options: {
-      data: {
+   options: {
+  emailRedirectTo: 'https://enfjulianapinto-boop.github.io/inovasus-connect/',
+  data: {
         nome_completo: nome,
         tipo_perfil: perfil,
         unidade: unidade
