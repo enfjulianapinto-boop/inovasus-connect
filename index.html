@@ -762,6 +762,9 @@ function switchAuth(mode) {
 <style>
 .form-screen {
   display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100001;
   min-height: 100vh;
   background: #f7f8f5;
   color: #123047;
@@ -770,6 +773,7 @@ function switchAuth(mode) {
   padding: 30px 15px;
   font-family: Arial, sans-serif;
   box-sizing: border-box;
+  overflow-y: auto;
 }
 
 .form-card {
@@ -828,25 +832,7 @@ function switchAuth(mode) {
 </style>
 
 <script>
-Screen(screenId) {
-  docufunction showment.getElementById('welcome-screen').style.display = 'none';
 
-  const screens = [
-    'access-screen',
-    'login-screen',
-    'register-screen',
-    'recovery-screen',
-    'dashboard-screen'
-  ];
-
-  screens.forEach(function(id) {
-    document.getElementById(id).style.display = 'none';
-  });
-
-  const selected = document.getElementById(screenId);
-  selected.style.display = 'flex';
-}
-</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
@@ -956,7 +942,7 @@ async function updatePassword(event) {
   mensagem.style.display = 'block';
 }
 function showScreen(screenId) {
-  document.querySelectorAll('#welcome-screen, #access-screen, #dashboard-screen, #login-screen, #register-screen, #recovery-screen').forEach(function(screen) {
+ document.querySelectorAll('#welcome-screen, #access-screen, #dashboard-screen, #login-screen, #register-screen, #recovery-screen, #new-password-screen')
     if (screen) screen.style.display = 'none';
   });
 
