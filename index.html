@@ -714,16 +714,42 @@ function switchAuth(mode) {
 <div id="recovery-screen" class="form-screen">
   <div class="form-card">
     <h1>Recuperar senha</h1>
-    <p>Informe seu e-mail para recuperar o acesso.</p>
-    <form onsubmit="event.preventDefault(); showScreen('login-screen');">
+    <p>Informe o e-mail cadastrado para receber o link de redefinição da senha.</p>
+
+    <form onsubmit="resetPassword(event)">
       <label>E-mail</label>
-      <input type="email" placeholder="Digite seu e-mail" required>
-      <button type="submit" class="main-btn">CONTINUAR</button>
+      <input id="recovery-email" type="email" placeholder="Digite seu e-mail" required>
+
+      <button type="submit" class="main-btn">ENVIAR LINK</button>
     </form>
-    <button class="text-btn" onclick="showScreen('login-screen')">Voltar ao login</button>
+
+    <div id="recovery-message" style="display:none; margin-top:15px; font-size:13px;"></div>
+
+    <button class="text-btn" onclick="showScreen('access-screen'); switchAuth('login')">
+      Voltar ao login
+    </button>
   </div>
 </div>
 
+<!-- NOVA SENHA -->
+<div id="new-password-screen" class="form-screen">
+  <div class="form-card">
+    <h1>Nova senha</h1>
+    <p>Crie uma nova senha para acessar sua conta.</p>
+
+    <form onsubmit="updatePassword(event)">
+      <label>Nova senha</label>
+      <input id="new-password" type="password" placeholder="Digite sua nova senha" required minlength="6">
+
+      <label>Confirmar nova senha</label>
+      <input id="confirm-password" type="password" placeholder="Digite novamente sua senha" required minlength="6">
+
+      <button type="submit" class="main-btn">SALVAR NOVA SENHA</button>
+    </form>
+
+    <div id="new-password-message" style="display:none; margin-top:15px; font-size:13px;"></div>
+  </div>
+</div>
 <!-- PAINEL INICIAL -->
 <div id="dashboard-screen" class="form-screen">
   <div class="form-card">
@@ -881,6 +907,54 @@ if (error) {
 
   showScreen('dashboard-screen');
 }
+async function resetPassword(event) {
+  event.preventDefault();
+
+  const email = document.getElementById('recovery-email').value;
+  const mensagem = document.getElementById('recovery-message');
+
+  const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+    redirectTo: 'https://enfjulianapinto-boop.github.io/inovasus-connect/'
+  });
+
+  if (error) {
+    mensagem.textContent = 'Não foi possível enviar o link. Verifique o e-mail informado.';
+    mensagem.style.color = '#b42318';
+  } else {
+    mensagem.textContent = 'Se este e-mail estiver cadastrado, você receberá um link para redefinir sua senha. Verifique também o spam.';
+    mensagem.style.color = '#16877C';
+  }
+
+  mensagem.style.display = 'block';
+}
+async function updatePassword(event) {
+  event.preventDefault();
+
+  const senha = document.getElementById('new-password').value;
+  const confirmar = document.getElementById('confirm-password').value;
+  const mensagem = document.getElementById('new-password-message');
+
+  if (senha !== confirmar) {
+    mensagem.textContent = 'As senhas não são iguais. Digite novamente.';
+    mensagem.style.color = '#b42318';
+    mensagem.style.display = 'block';
+    return;
+  }
+
+  const { error } = await supabaseClient.auth.updateUser({
+    password: senha
+  });
+
+  if (error) {
+    mensagem.textContent = 'Não foi possível atualizar a senha. Tente novamente.';
+    mensagem.style.color = '#b42318';
+  } else {
+    mensagem.textContent = 'Senha atualizada com sucesso! Você já pode entrar com sua nova senha.';
+    mensagem.style.color = '#16877C';
+  }
+
+  mensagem.style.display = 'block';
+}
 function showScreen(screenId) {
   document.querySelectorAll('#welcome-screen, #access-screen, #dashboard-screen, #login-screen, #register-screen, #recovery-screen').forEach(function(screen) {
     if (screen) screen.style.display = 'none';
@@ -892,6 +966,11 @@ function showScreen(screenId) {
     selectedScreen.style.display = 'flex';
   }
 }
+supabaseClient.auth.onAuthStateChange((event, session) => {
+  if (event === 'PASSWORD_RECOVERY') {
+    showScreen('new-password-screen');
+  }
+});
 </script>
 </body>
 </html>
