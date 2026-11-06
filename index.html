@@ -1115,8 +1115,11 @@ if (error) {
   return;
 }
 
-  showScreen('dashboard-screen');
-}
+document.querySelectorAll('.form-screen, #welcome-screen, #access-screen').forEach(function(screen) {
+  screen.style.display = 'none';
+});
+
+document.querySelector('.app').style.display = 'flex';}
 async function resetPassword(event) {
   event.preventDefault();
 
